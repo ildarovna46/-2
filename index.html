@@ -4,13 +4,145 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Генератор идей для постов</title>
+  <style>
+    :root {
+      --bg-start: #f2f7ff;
+      --bg-end: #fff7f2;
+      --card-bg: #ffffff;
+      --text: #1e2433;
+      --muted: #5b6478;
+      --accent: #5b7cfa;
+      --accent-soft: #e8edff;
+      --shadow: 0 14px 35px rgba(24, 42, 89, 0.12);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background: linear-gradient(130deg, var(--bg-start), var(--bg-end));
+    }
+
+    .card {
+      width: min(640px, 100%);
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 26px;
+      animation: cardIn 700ms ease-out both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: -120% auto auto -40%;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91, 124, 250, 0.18), transparent 70%);
+      animation: floatGlow 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(1.6rem, 2.8vw, 2rem);
+      line-height: 1.2;
+      letter-spacing: 0.2px;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    li {
+      background: #f9faff;
+      border: 1px solid #edf0ff;
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: var(--muted);
+      transform: translateY(8px);
+      opacity: 0;
+      animation: itemIn 500ms ease-out forwards;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+
+    li::before {
+      content: "•";
+      color: var(--accent);
+      margin-right: 10px;
+      font-weight: 700;
+    }
+
+    li:hover {
+      transform: translateY(-2px);
+      border-color: #d8e1ff;
+      box-shadow: 0 8px 18px rgba(91, 124, 250, 0.16);
+    }
+
+    li:nth-child(1) {
+      animation-delay: 120ms;
+    }
+
+    li:nth-child(2) {
+      animation-delay: 240ms;
+    }
+
+    li:nth-child(3) {
+      animation-delay: 360ms;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes itemIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatGlow {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(38px, 24px);
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Генератор идей для постов</h1>
-  <ul>
-    <li>5 идей постов для экспертов</li>
-    <li>3 идеи сторис на сегодня</li>
-    <li>контент-план на неделю</li>
-  </ul>
+  <main class="card">
+    <h1>Генератор идей для постов</h1>
+    <ul>
+      <li>5 идей постов для экспертов</li>
+      <li>3 идеи сторис на сегодня</li>
+      <li>контент-план на неделю</li>
+    </ul>
+  </main>
 </body>
 </html>
