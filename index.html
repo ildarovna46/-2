@@ -6,15 +6,11 @@
   <title>Генератор идей для постов</title>
   <style>
     :root {
-      --bg-start: #f2f7ff;
-      --bg-end: #fff7f2;
-      --card-bg: #ffffff;
-      --text: #1e2433;
-      --muted: #5b6478;
-      --accent: #5b7cfa;
-      --accent-soft: #e8edff;
-      --shadow: 0 14px 35px rgba(24, 42, 89, 0.12);
-      --radius: 18px;
+      --text: #1f1339;
+      --muted: #4e3d73;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --shadow: 0 14px 40px rgba(74, 25, 116, 0.25);
+      --radius: 20px;
     }
 
     * {
@@ -26,18 +22,28 @@
       min-height: 100vh;
       display: grid;
       place-items: center;
-      padding: 24px;
+      padding: 22px;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       color: var(--text);
-      background: linear-gradient(130deg, var(--bg-start), var(--bg-end));
+      background: linear-gradient(
+        135deg,
+        #feda75 0%,
+        #fa7e1e 22%,
+        #d62976 47%,
+        #962fbf 73%,
+        #4f5bd5 100%
+      );
+      background-size: 180% 180%;
+      animation: bgShift 12s ease infinite;
     }
 
     .card {
       width: min(640px, 100%);
       background: var(--card-bg);
+      backdrop-filter: blur(8px);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 28px 26px;
+      padding: 28px 24px 24px;
       animation: cardIn 700ms ease-out both;
       position: relative;
       overflow: hidden;
@@ -46,20 +52,31 @@
     .card::after {
       content: "";
       position: absolute;
-      inset: -120% auto auto -40%;
-      width: 220px;
-      height: 220px;
+      inset: -20% -20% auto auto;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(91, 124, 250, 0.18), transparent 70%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.55), transparent 72%);
       animation: floatGlow 6s ease-in-out infinite;
       pointer-events: none;
     }
 
+    h1,
+    p {
+      margin: 0;
+    }
+
     h1 {
-      margin: 0 0 18px;
+      margin-bottom: 8px;
       font-size: clamp(1.6rem, 2.8vw, 2rem);
       line-height: 1.2;
       letter-spacing: 0.2px;
+    }
+
+    .subtitle {
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 0.98rem;
     }
 
     ul {
@@ -71,8 +88,8 @@
     }
 
     li {
-      background: #f9faff;
-      border: 1px solid #edf0ff;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.95);
       border-radius: 12px;
       padding: 12px 14px;
       color: var(--muted);
@@ -84,15 +101,53 @@
 
     li::before {
       content: "•";
-      color: var(--accent);
+      color: #d62976;
       margin-right: 10px;
       font-weight: 700;
     }
 
     li:hover {
       transform: translateY(-2px);
-      border-color: #d8e1ff;
-      box-shadow: 0 8px 18px rgba(91, 124, 250, 0.16);
+      border-color: rgba(255, 255, 255, 1);
+      box-shadow: 0 9px 20px rgba(214, 41, 118, 0.22);
+    }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .generate-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff6a95, #d62976, #962fbf);
+      box-shadow: 0 10px 22px rgba(150, 47, 191, 0.35);
+      transition: transform 160ms ease, box-shadow 200ms ease, filter 200ms ease;
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(150, 47, 191, 0.42);
+      filter: saturate(1.05);
+    }
+
+    .generate-btn:active {
+      transform: translateY(0);
+    }
+
+    .generate-btn:focus-visible {
+      outline: 3px solid rgba(79, 91, 213, 0.4);
+      outline-offset: 2px;
+    }
+
+    li.refresh {
+      animation: pop 360ms ease;
     }
 
     li:nth-child(1) {
@@ -130,7 +185,30 @@
         transform: translate(0, 0);
       }
       50% {
-        transform: translate(38px, 24px);
+        transform: translate(10px, 18px);
+      }
+    }
+
+    @keyframes bgShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0.98);
+        opacity: 0.75;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
       }
     }
   </style>
@@ -138,11 +216,57 @@
 <body>
   <main class="card">
     <h1>Генератор идей для постов</h1>
-    <ul>
+    <p class="subtitle">Нажмите на кнопку и получите новый набор контент-идей.</p>
+    <ul id="ideasList">
       <li>5 идей постов для экспертов</li>
       <li>3 идеи сторис на сегодня</li>
       <li>контент-план на неделю</li>
     </ul>
+    <div class="actions">
+      <button class="generate-btn" id="generateBtn" type="button">Сгенерировать</button>
+    </div>
   </main>
+
+  <script>
+    const ideasPool = [
+      [
+        "5 идей постов для экспертов",
+        "3 идеи сторис на сегодня",
+        "контент-план на неделю"
+      ],
+      [
+        "4 темы для прогрева аудитории перед продажей",
+        "3 сторис с личной историей эксперта",
+        "рубрики для блога на 7 дней"
+      ],
+      [
+        "5 постов с частыми ошибками клиентов",
+        "3 быстрые сторис с опросами",
+        "контент-план на неделю с CTA"
+      ],
+      [
+        "5 экспертных постов для роста доверия",
+        "3 сторис с закулисьем работы",
+        "недельный план: польза + вовлечение + продажа"
+      ]
+    ];
+
+    const ideasList = document.getElementById("ideasList");
+    const generateBtn = document.getElementById("generateBtn");
+    let currentIndex = 0;
+
+    generateBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % ideasPool.length;
+      const nextSet = ideasPool[currentIndex];
+      const items = ideasList.querySelectorAll("li");
+
+      items.forEach((item, index) => {
+        item.classList.remove("refresh");
+        void item.offsetWidth;
+        item.textContent = nextSet[index];
+        item.classList.add("refresh");
+      });
+    });
+  </script>
 </body>
 </html>
